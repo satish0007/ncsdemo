@@ -24,21 +24,17 @@ NCA.main = {
             }
             data.map(element => {
                 if (element.collectiontype === constants.apiUrls.collectiontype) {
-                    let _id = element.collectionid,
-                        type = element.collectiontype;
-                    this.getStories(_id, type);
+                    let _id = element.collectionid;
+                    this.getStories(_id);
                 }
             });
         }).catch(error => {
             console.log(error)
         });
     },
-    getStories: function(_id, type) {
+    getStories: function(_id) {
         this.onLine();
         let bottomContent = '';
-        let formData = new FormData();
-        formData.append('userCode', _id);
-        formData.append('type', type);
         landing(constants.apiUrls.baseUrl + constants.apiUrls.collection+`${_id}`).then(response => { //
             response.forEach(function(value, i) {
                 let url = value.Imageurl;
