@@ -35,7 +35,7 @@ p {
      display: block;
 }
  .valgn{
-     vertical-align:-2px;
+     vertical-align:baseline;
      width:30px;
 }
  .right_section img {
@@ -90,7 +90,7 @@ p {
  .wrapvalign{
      width:38px;
      height:auto;
-     vertical-align: -5px;
+     vertical-align: baseline;
 }
  .lsection {
      display: flex;
@@ -152,7 +152,7 @@ p {
      margin: 0px 0px 10px 0px;
 }
  .titleimg{
-     vertical-align: -3px;
+     vertical-align: baseline;
      width: 25px;
      padding: 0px;
      margin: 0px;
@@ -179,7 +179,7 @@ p {
 }
  .pl10{
      padding: 0px 5px 0px 4px;
-     vertical-align: -1px;
+     vertical-align: baseline;
 }
  .initial-head p {
      min-height: 192px;
@@ -216,6 +216,13 @@ p {
          width: 100%;
          margin: 0px auto;
     }
+	.initial-head p {
+		min-height: 105px;
+	}
+	.pl10 {
+		padding: 0px 5px 0px 0px;
+		vertical-align: baseline;
+	}
      .right_section{
          width: 100%;
     }
