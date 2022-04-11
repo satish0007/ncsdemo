@@ -7,7 +7,8 @@ const NC = [];
 constants.apiUrls = {
 	 baseUrl :'http://localhost/news/index.php/api/',
 	 landing : "/landing",
-	 collection : "/collection"
+	 collection : "/collection",
+	 collectiontype : "landing"
 };
 
 NC.global = {
@@ -19,7 +20,7 @@ NC.global = {
 		landing(constants.apiUrls.baseUrl+`landing`).then(data => {
 			if(data.length > 0) { document.getElementById('loader').innerHTML =  ''; }
 			data.map(element => {
-				if(element.collectiontype === 'landing'){
+				if(element.collectiontype === constants.apiUrls.collectiontype){
 					let _id = element.collectionid, type = element.collectiontype;
 					this.getStories(_id, type);
 				}
