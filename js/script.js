@@ -5,7 +5,7 @@ const constants = {};
 const NC = [];
 
 constants.apiUrls = {
-	 baseUrl :'http://localhost/news/index.php/api/',
+	 baseUrl :'http://localhost/news/index.php/api',
 	 landing : "/landing",
 	 collection : "/collection",
 	 collectiontype : "landing"
@@ -17,7 +17,7 @@ NC.global = {
 	},getLanding: function() {
 		this.onLine();
 		//call landing api
-		landing(constants.apiUrls.baseUrl+`landing`).then(data => {
+		landing(constants.apiUrls.baseUrl+constants.apiUrls.landing).then(data => {
 			if(data.length > 0) { document.getElementById('loader').innerHTML =  ''; }
 			data.map(element => {
 				if(element.collectiontype === constants.apiUrls.collectiontype){
@@ -31,7 +31,7 @@ NC.global = {
 	},getStories: function(_id, type) {
 		this.onLine();
 		let formData = new FormData(); formData.append('userCode', _id);formData.append('type', type);
-		collections(constants.apiUrls.baseUrl+ `collection`, formData).then(response => { //
+		collections(constants.apiUrls.baseUrl+constants.apiUrls.collection, formData).then(response => { //
 			response.forEach(function (value, i) {
 				let url = value.Imageurl; let intro = value.Intro; let title = value.Title; let published = value.Published;
 				if(i === 0){
