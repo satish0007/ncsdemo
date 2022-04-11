@@ -7,7 +7,7 @@ const NCA = [];
 constants.apiUrls = {
     baseUrl: 'http://localhost/news/index.php/api',
     landing: "/landing",
-    collection: "/collection",
+    collection: "/collection/",
     collectiontype: "landing"
 };
 
@@ -16,7 +16,7 @@ NCA.main = {
         this.getLanding();
     },
     getLanding: function() {
-        this.onLine();
+        this.onLine();this.loader();
         //call landing api
         landing(constants.apiUrls.baseUrl + constants.apiUrls.landing).then(data => {
             if (data.length > 0) {
@@ -39,7 +39,7 @@ NCA.main = {
         let formData = new FormData();
         formData.append('userCode', _id);
         formData.append('type', type);
-        collections(constants.apiUrls.baseUrl + constants.apiUrls.collection, formData).then(response => { //
+        landing(constants.apiUrls.baseUrl + constants.apiUrls.collection+`${_id}`).then(response => { //
             response.forEach(function(value, i) {
                 let url = value.Imageurl;
                 let intro = value.Intro;
@@ -72,13 +72,15 @@ NCA.main = {
         if (!navigator.onLine) {
             document.getElementById('body').innerHTML = '<div class="text-center _center"><img src="img/offline.jpg" alt="offline" /><h3 class="offh3">You are currently offline</h3></div>';
         }
-    }
+    },
+	loader : function(){
+		document.getElementById('loader').innerHTML = '<div class="text-center"><div class="spinner">Loading...</div><p class="decor-content">Please wait while loading, we appreciate your patience</p></div>';
+	}
 };
 NCA.main.init();
 
 //load landing api 
 function landing(url) {
-    document.getElementById('loader').innerHTML = '<div class="text-center"><div class="spinner">Loading...</div><p class="decor-content">Please wait while loading, we appreciate your patience</p></div>';
     return new Promise((resolve, reject) => {
         fetch(url)
             .then(response => response.json())
@@ -88,22 +90,5 @@ function landing(url) {
             .catch((error) => {
                 console.log('something went wrong')
             });
-    });
-}
-
-//load collections api
-function collections(url, params) {
-    return new Promise((resolve, reject) => {
-        let request = new XMLHttpRequest();
-        request.open('POST', url, true);
-
-        request.onload = function() {
-            let data = JSON.parse(request.responseText);
-            resolve(data);
-        }
-        request.error = function() {
-            console.log('Something went wrong');
-        }
-        request.send(params);
     });
 }
