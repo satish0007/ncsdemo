@@ -6,7 +6,7 @@ const NCA = [];
 
 constants.apiUrls = {
     baseUrl: 'http://localhost/news/index.php/api',
-    collection: "https://api.jsonbin.io/b/62552955d8a4cc06909f799d",
+    collection: "https://api.jsonbin.io/b/625543307b69e806cf4c5001",
     landing: "https://api.jsonbin.io/b/625528ccd20ace068f970527",
     collectiontype: "landing"
 };
