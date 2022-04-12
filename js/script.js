@@ -6,8 +6,8 @@ const NCA = [];
 
 constants.apiUrls = {
     baseUrl: 'http://localhost/news/index.php/api',
-    landing: "/landing",
-    collection: "/collection/",
+    collection: "https://api.jsonbin.io/b/62552955d8a4cc06909f799d",
+    landing: "https://api.jsonbin.io/b/625528ccd20ace068f970527",
     collectiontype: "landing"
 };
 
@@ -18,24 +18,26 @@ NCA.main = {
     getLanding: function() {
         this.onLine();this.loader();
         //call landing api
-        landing(constants.apiUrls.baseUrl + constants.apiUrls.landing).then(data => {
-            if (data.length > 0) {
-                document.getElementById('loader').innerHTML = '';
-            }
-            data.map(element => {
-                if (element.collectiontype === constants.apiUrls.collectiontype) {
-                    let _id = element.collectionid;
-                    this.getStories(_id);
-                }
-            });
-        }).catch(error => {
-            console.log(error)
-        });
+		landing(constants.apiUrls.landing).then(data => {
+				console.log(data);
+				if (data.length > 0) {
+					document.getElementById('loader').innerHTML = '';
+				}
+				data.map(element => {
+					if (element.collectiontype === constants.apiUrls.collectiontype) {
+						let _id = element.collectionid;
+						this.getStories(_id);
+					}
+				});
+			}).catch(error => {
+				console.log(error)
+			});
     },
     getStories: function(_id) {
         this.onLine();
-        let bottomContent = '';
-        landing(constants.apiUrls.baseUrl + constants.apiUrls.collection+`${_id}`).then(response => { //
+        let bottomContent = ''; this.loader();
+        landing(constants.apiUrls.collection).then(response => { //
+			document.getElementById('loader').innerHTML = '';
             response.forEach(function(value, i) {
                 let url = value.Imageurl;
                 let intro = value.Intro;
@@ -77,14 +79,12 @@ NCA.main.init();
 
 //load landing api 
 function landing(url) {
-    return new Promise((resolve, reject) => {
-        fetch(url)
+       return fetch(url)
             .then(response => response.json())
             .then(msg => {
-                resolve(msg);
+                return msg;
             })
             .catch((error) => {
                 console.log('something went wrong')
             });
-    });
 }
