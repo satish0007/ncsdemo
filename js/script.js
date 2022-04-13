@@ -6,8 +6,8 @@ const NCA = [];
 
 constants.apiUrls = {
     baseUrl: 'http://localhost/news/index.php/api',
-    collection: "https://api.jsonbin.io/b/625543307b69e806cf4c5001",
-    landing: "https://api.jsonbin.io/b/625528ccd20ace068f970527",
+    landing: "/landing",
+    collection: "/collection/",
     collectiontype: "landing"
 };
 
@@ -18,26 +18,24 @@ NCA.main = {
     getLanding: function() {
         this.onLine();this.loader();
         //call landing api
-		landing(constants.apiUrls.landing).then(data => {
-				console.log(data);
-				if (data.length > 0) {
-					document.getElementById('loader').innerHTML = '';
-				}
-				data.map(element => {
-					if (element.collectiontype === constants.apiUrls.collectiontype) {
-						let _id = element.collectionid;
-						this.getStories(_id);
-					}
-				});
-			}).catch(error => {
-				console.log(error)
-			});
+        landing(constants.apiUrls.baseUrl + constants.apiUrls.landing).then(data => {
+            if (data.length > 0) {
+                document.getElementById('loader').innerHTML = '';
+            }
+            data.map(element => {
+                if (element.collectiontype === constants.apiUrls.collectiontype) {
+                    let _id = element.collectionid;
+                    this.getStories(_id);
+                }
+            });
+        }).catch(error => {
+            console.log(error)
+        });
     },
     getStories: function(_id) {
         this.onLine();
-        let bottomContent = ''; this.loader();
-        landing(constants.apiUrls.collection).then(response => { //
-			document.getElementById('loader').innerHTML = '';
+        let bottomContent = '';
+        landing(constants.apiUrls.baseUrl + constants.apiUrls.collection+`${_id}`).then(response => { //
             response.forEach(function(value, i) {
                 let url = value.Imageurl;
                 let intro = value.Intro;
@@ -79,12 +77,14 @@ NCA.main.init();
 
 //load landing api 
 function landing(url) {
-       return fetch(url)
+    return new Promise((resolve, reject) => {
+        fetch(url)
             .then(response => response.json())
             .then(msg => {
-                return msg;
+                resolve(msg);
             })
             .catch((error) => {
                 console.log('something went wrong')
             });
+    });
 }
